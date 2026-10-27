@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Практичне заняття №10 — Кібергігієна в комунікації та документообігу</title>
+<style>
+:root {
+  --bg: #F7F4EF; --card: #FFFFFF; --soft: #EFECE6; --text: #2C2623;
+  --muted: #5C554E; --olive: #4A5D4E; --terra: #C86D51; --amber: #D99B52;
+  --border: #DCD5C9; --ok: #255834;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; padding: 20px 12px 40px; }
+.container { max-width: 920px; margin: 0 auto; background: var(--card); border-radius: 16px; box-shadow: 0 6px 24px rgba(44,38,35,0.08); border: 1px solid var(--border); overflow: hidden; }
+header { background: var(--olive); color: #fff; padding: 22px 26px; text-align: center; }
+header h1 { font-size: 21px; margin-bottom: 4px; }
+header p { font-size: 13.5px; opacity: 0.92; }
+.steps-nav { display: flex; background: var(--soft); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.step-tab { flex: 1; min-width: 145px; text-align: center; padding: 12px 6px; font-size: 13px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; user-select: none; }
+.step-tab.active { background: var(--card); color: var(--olive); border-bottom-color: var(--terra); }
+.step-tab.done { color: var(--ok); }
+.content-area { padding: 26px 28px; }
+.step-pane { display: none; }
+.step-pane.active { display: block; }
+.top-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+h2 { font-size: 19px; color: var(--olive); }
+.guide-box { background: var(--soft); border-left: 4px solid var(--olive); padding: 12px 16px; border-radius: 8px; font-size: 13.5px; margin-bottom: 16px; }
+.card-block { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 15px; margin-bottom: 14px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 680px) { .grid-2 { grid-template-columns: 1fr; } .content-area { padding: 18px 14px; } }
+.field-group { margin-bottom: 12px; }
+.field-group:last-child { margin-bottom: 0; }
+label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+.sub-hint { display: block; font-size: 12px; font-weight: 400; color: var(--muted); margin-bottom: 5px; }
+input[type="text"], input[type="email"], select, textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--border); border-radius: 7px; font-size: 13.5px; font-family: inherit; background: #fff; color: var(--text); }
+textarea { resize: vertical; min-height: 64px; }
+.btn { background: var(--olive); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; font-size: 13.5px; cursor: pointer; }
+.btn:hover { opacity: 0.9; }
+.btn-terra { background: var(--terra); }
+.btn-amber { background: var(--amber); padding: 7px 13px; font-size: 12.5px; }
+.btn-soft { background: var(--soft); color: var(--text); border: 1px solid var(--border); }
+.footer-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+.report-sheet { background: #fff; border: 2px solid var(--olive); border-radius: 12px; padding: 22px; margin-bottom: 18px; }
+.report-header { background: var(--olive); color: #fff; padding: 14px 18px; border-radius: 8px; margin-bottom: 16px; }
+.report-section { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+.report-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.report-section h4 { color: var(--olive); font-size: 14.5px; margin-bottom: 6px; }
+.report-list { padding-left: 18px; }
+.report-list li { margin-bottom: 5px; }
+@media print {
+  body { background: #fff; padding: 0; }
+  .container { box-shadow: none; border: none; max-width: 100%; }
+  header, .steps-nav, .footer-nav, .no-print { display: none !important; }
+  .content-area { padding: 0; }
+  .step-pane { display: none !important; }
+  #step5 { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Практичне заняття до Теми 10</h1>
+    <p>Кібергігієна в комунікації, документообігу та спільній роботі — покроковий робочий аркуш</p>
+  </header>
+
+  <div class="steps-nav">
+    <div class="step-tab active" id="tab1" onclick="goStep(1)">Крок 1 • Аудит хмари</div>
+    <div class="step-tab" id="tab2" onclick="goStep(2)">Крок 2 • Робочі ситуації</div>
+    <div class="step-tab" id="tab3" onclick="goStep(3)">Крок 3 • 5 правил безпеки</div>
+    <div class="step-tab" id="tab4" onclick="goStep(4)">Крок 4 • Безпечна вчительська</div>
+    <div class="step-tab" id="tab5" onclick="goStep(5)">Фінал • Звіт і PDF</div>
+  </div>
+
+  <div class="content-area">
+
+    <!-- КРОК 1 -->
+    <div class="step-pane active" id="step1">
+      <div class="top-row">
+        <h2>Крок 1. Дані автора та експрес-аудит хмарного простору</h2>
+        <button type="button" class="btn btn-amber" onclick="sample1()">Заповнити Крок 1 зразком</button>
+      </div>
+
+      <div class="card-block">
+        <div class="grid-2">
+          <div class="field-group">
+            <label>Прізвище та ім’я автора</label>
+            <input type="text" id="uName" placeholder="Введіть ваше ПІБ">
+          </div>
+          <div class="field-group">
+            <label>Заклад освіти</label>
+            <input type="text" id="uSchool" placeholder="Вкажіть назву закладу освіти">
+          </div>
+          <div class="field-group">
+            <label>Посада або навчальний предмет</label>
+            <input type="text" id="uRole" placeholder="Наприклад — вчитель інформатики, класний керівник">
+          </div>
+          <div class="field-group">
+            <label>Електронна пошта</label>
+            <input type="email" id="uEmail" placeholder="name@example.com">
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-box">
+        <strong>Покрокова інструкція до Кроку 1</strong><br>
+        1. Відкрийте своє робоче хмарне сховище (Google Drive, OneDrive тощо) та знайдіть три робочі документи або таблиці за останній рік.<br>
+        2. Натисніть кнопку «Поділитися» біля кожного файла і перевірте дійсні налаштування доступу.<br>
+        3. Зафіксуйте, чи є серед них документи з відкритим доступом «Усі, хто має посилання, можуть редагувати» та чи не містять вони персональних даних здобувачів освіти.
+      </div>
+
+      <div class="card-block">
+        <div class="grid-2">
+          <div class="field-group">
+            <label>Перший перевірений файл (назва або тип)</label>
+            <input type="text" id="f1Name" placeholder="Наприклад — Список учнів класу">
+          </div>
+          <div class="field-group">
+            <label>Рівень доступу до першого файла</label>
+            <select id="f1Acc">
+              <option value="Адресний доступ за email (Обмежено)">Адресний доступ за email (Обмежено)</option>
+              <option value="Перегляд за посиланням (Читач)">Перегляд за посиланням (Читач)</option>
+              <option value="Коментування за посиланням (Коментатор)">Коментування за посиланням (Коментатор)</option>
+              <option value="Відкрите посилання (змінено на обмежений)">Відкрите посилання (змінено на обмежений)</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>Другий перевірений файл (назва або тип)</label>
+            <input type="text" id="f2Name" placeholder="Наприклад — План методичного об’єднання">
+          </div>
+          <div class="field-group">
+            <label>Рівень доступу до другого файла</label>
+            <select id="f2Acc">
+              <option value="Коментування для колег кафедри">Коментування для колег кафедри</option>
+              <option value="Адресний доступ на редагування за email">Адресний доступ на редагування за email</option>
+              <option value="Перегляд за посиланням (Читач)">Перегляд за посиланням (Читач)</option>
+              <option value="Відкрите посилання (виправлено)">Відкрите посилання (виправлено)</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label>Третій перевірений файл (назва або тип)</label>
+            <input type="text" id="f3Name" placeholder="Наприклад — Пам’ятка для батьків">
+          </div>
+          <div class="field-group">
+            <label>Рівень доступу до третього файла</label>
+            <select id="f3Acc">
+              <option value="Перегляд (Читач) без права редагування">Перегляд (Читач) без права редагування</option>
+              <option value="Адресний доступ за email (Обмежено)">Адресний доступ за email (Обмежено)</option>
+              <option value="Коментування (Коментатор)">Коментування (Коментатор)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group" style="margin-top:12px;">
+          <label>Який головний ризик виявлено під час перевірки та які налаштування ви змінили негайно</label>
+          <textarea id="aRisk" placeholder="Опишіть, які відкриті посилання було закрито та як захищено файли з персональними даними..."></textarea>
+        </div>
+      </div>
+
+      <div class="footer-nav">
+        <span>Крок 1 із 4</span>
+        <button type="button" class="btn btn-terra" onclick="goStep(2)">Далі — Крок 2 (Робочі ситуації) →</button>
+      </div>
+    </div>
+
+    <!-- КРОК 2 -->
+    <div class="step-pane" id="step2">
+      <div class="top-row">
+        <h2>Крок 2. Розбір трьох типових робочих ситуацій</h2>
+        <button type="button" class="btn btn-amber" onclick="sample2()">Заповнити Крок 2 зразком</button>
+      </div>
+
+      <div class="guide-box">
+        Проаналізуйте три життєві ситуації закладу освіти та визначте правильний безпечний маршрут для кожного документа.
+      </div>
+
+      <div class="card-block">
+        <div class="field-group">
+          <label>Ситуація 1 — Збір соціальних даних здобувачів освіти</label>
+          <span class="sub-hint">Класний керівник створює таблицю зі статусом сімей, місцем проживання та пільгами. Який рівень доступу встановити, чи допустимо надсилати посилання в батьківський Viber-чат і як правильно організувати збір відомостей?</span>
+          <textarea id="c1" placeholder="Ваш розв’язок Ситуації 1..."></textarea>
+        </div>
+      </div>
+
+      <div class="card-block">
+        <div class="field-group">
+          <label>Ситуація 2 — Спільне планування розкладу або методичного заходу</label>
+          <span class="sub-hint">Заступник директора або голова методоб’єднання створює документ для 20 учителів-предметників. Як надати доступ колегам без ризику анонімного псування тексту сторонніми користувачами?</span>
+          <textarea id="c2" placeholder="Ваш розв’язок Ситуації 2..."></textarea>
+        </div>
+      </div>
+
+      <div class="card-block">
+        <div class="field-group">
+          <label>Ситуація 3 — Передача офіційної довідки або наказу батькам здобувачів освіти</label>
+          <span class="sub-hint">Педагог надсилає розклад занять або пам’ятку з безпеки життєдіяльності в чат класу. У якому форматі (PDF, документ Word, посилання на редагування) безпечно ділитися такими матеріалами?</span>
+          <textarea id="c3" placeholder="Ваш розв’язок Ситуації 3..."></textarea>
+        </div>
+      </div>
+
+      <div class="footer-nav">
+        <button type="button" class="btn
